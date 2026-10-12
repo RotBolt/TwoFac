@@ -55,7 +55,9 @@ class AccountsViewModelTest {
             viewModel.importAccounts(listOf("secret payload"), null, completion::complete)
             assertEquals(null, completion.await())
             assertTrue(viewModel.accounts.value.isEmpty())
-            assertTrue(viewModel.error.value?.contains("secret payload") != true)
+            val error = assertNotNull(viewModel.error.value)
+            assertTrue(error.isNotBlank())
+            assertTrue(!error.contains("secret payload"))
         } finally { store.clear() }
     }
 
